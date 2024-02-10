@@ -11,27 +11,29 @@ import matplotlib.pyplot as plt
 # Load your dataset
 data = pd.read_csv('data/fake_house_prices_dataset.csv')
 
-# Perform data preprocessing steps
-X = data.drop('Price', axis=1)
-y = data['Price']
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+X = data[['bedrooms']]
+y = data['price']
 
-# Train the linear regression model
 model = LinearRegression()
-model.fit(X_train, y_train)
-#joblib.dump(model, 'data/fake_house_prices_dataset_trained.pkl')
+model.fit(X, y)
 
-# Make predictions on the test set
-predictions = model.predict(X_test)
+print('Coeficient ', model.coef_[0])
+print('Intercept', model.intercept_)
 
-# Evaluate the model
-mse = mean_squared_error(y_test, predictions)
-print(f'Mean Squared Error: {mse}')
+newData = pd.DataFrame({'bedrooms': [2,3,4,6,9]})
+predictions = model.predict(newData)
+newData['prices_predict'] = predictions
 
-# Plot the results
-plt.scatter(y_test, predictions)
-plt.xlabel('True Values')
-plt.ylabel('Predictions')
-plt.title('True vs. Predicted Values')
+bedrooms_list = newData['bedrooms'].tolist()
+prices_predict_array = newData['prices_predict'].to_numpy()
+
+print('Original', data)
+print('New data', newData) 
+
+plt.scatter(data['bedrooms'], data['price'], label='Dados originais')
+plt.plot(bedrooms_list, prices_predict_array, color='red', label='Previsoes')
+plt.xlabel('Bedrooms')
+plt.ylabel('Price')
+plt.legend()
 plt.show()
 
