@@ -1,32 +1,20 @@
 import pandas as pd
-import numpy as np
 
-# Set a random seed for reproducibility
-np.random.seed(42)
+"""
+Regions
+A-> Better
+B-> Good
+C-> Not so good
+"""
 
-# Generate a fake dataset
-num_samples = 5
+data = {
+  'price': [210000.00, 350500.00, 550000.00, 800000.00],
+  'bedrooms': [2, 3, 3, 4],
+  'regions': ['C', 'B', 'A', 'A']
+}
 
-# Features
-num_bedrooms = np.random.randint(1, 5, num_samples)
-square_footage = np.random.randint(1000, 3000, num_samples)
-location_factor = np.random.uniform(0.8, 1.2, num_samples)  # Random factor for location
-available = True
+df = pd.DataFrame(data)
 
-# Linear relationship to generate house prices
-house_prices = 50000 + 100 * num_bedrooms + 50 * square_footage * location_factor + np.random.normal(0, 10000, num_samples)
+df.to_csv('data/fake_house_prices_dataset.csv', index=False)
 
-# Create a DataFrame
-data = pd.DataFrame({
-    'Bedrooms': num_bedrooms,
-    #'SquareFootage': square_footage,
-    #'LocationFactor': location_factor,
-    'Price': house_prices,
-    #'Available': available,
-})
-
-# Save the dataset to a CSV file
-data.to_csv('data/fake_house_prices_dataset.csv', index=False)
-
-# Display the generated dataset
-print(data)
+print(df)
